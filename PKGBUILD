@@ -1,4 +1,3 @@
-# $Id: PKGBUILD,v 1.8 2009/04/14 13:22:11 bardo Exp $
 # Maintainer: Corrado Primier <bardo@aur.archlinux.org>
 # Contributor: ice-man <icemanf@gmail.com>
 
