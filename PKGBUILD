@@ -20,7 +20,7 @@ build() {
 }
 
 package_aircrack-ng() {
-pkgdesc='Key cracker for the 802.11 WEP and WPA-PSK protocols'
+	pkgdesc="A key cracker for the 802.11 WEP and WPA-PSK protocols"
 
   	cd ${srcdir}/${pkgname}-${pkgver}
 	make DESTDIR=${pkgdir} SQLITE=true unstable=true bindir=/usr/bin  \
@@ -36,7 +36,7 @@ pkgdesc='Key cracker for the 802.11 WEP and WPA-PSK protocols'
 }
 
 package_aircrack-ng-scripts() {
-pkgdesc='Included scripts for a key cracker for the 802.11 WEP and WPA-PSK protocols'
+	pkgdesc="Included scripts for a key cracker for the 802.11 WEP and WPA-PSK protocols"
         depends=('python2' 'graphviz' 'python2-pylorcon')	
 
 	cd ${srcdir}/aircrack-ng-${pkgver}/scripts
