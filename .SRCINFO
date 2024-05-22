@@ -24,7 +24,6 @@ pkgbase = aircrack-ng
 	depends = python
 	depends = zlib
 	depends = libnl
-	depends = usbutils
 	provides = aircrack-ng-scripts
 	conflicts = aircrack-ng-scripts
 	replaces = aircrack-ng-scripts

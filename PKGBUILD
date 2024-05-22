@@ -12,8 +12,10 @@ _os="$( \
   uname \
   -o)"
 _hwloc='true'
+_usbutils='true'
 [[ "${_os}" == 'Android' ]] && \
-  _hwloc='false'
+  _hwloc='false' \
+  _usbutils='false'
 pkgname=aircrack-ng
 _pkgver=1.7
 pkgver=${_pkgver//-/}
@@ -42,11 +44,14 @@ depends=(
   'python'
   'zlib'
   'libnl'
-  'usbutils'
 )
+[[ "${_usbutils}" == 'true' ]] && \
+  depends+=(
+    'usbutils'
+  )
 [[ "${_hwloc}" == 'true' ]] && \
   depends+=(
-    hwloc
+    'hwloc'
   )
 makedepends=(
   'python-setuptools'
