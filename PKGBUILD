@@ -1,7 +1,8 @@
 # SPDX-License-Identifier: AGPL-3.0
 #
 # Maintainer: Truocolo <truocolo@aol.com>
-# Maintainer: Pellegrino Prevete (tallero) <pellegrinoprevete@gmail.com># Maintainer: Levente Polyak <anthraxx[at]archlinux[dot]org>
+# Maintainer: Pellegrino Prevete (tallero) <pellegrinoprevete@gmail.com>
+# Maintainer: Levente Polyak <anthraxx[at]archlinux[dot]org>
 # Maintainer: Jonathan Steel <jsteel at archlinux.org>
 # Contributor: Brad Fanella <bradfanella@archlinux.us>
 # Contributor: Daenyth <Daenyth+Arch [at] gmail [dot] com>
@@ -13,6 +14,7 @@ _os="$( \
   -o)"
 _hwloc='true'
 _usbutils='true'
+_py="python"
 [[ "${_os}" == 'Android' ]] && \
   _hwloc='false' \
   _usbutils='false'
@@ -27,8 +29,10 @@ arch=(
   'aarch64'
   'i686'
 )
-url="https://www.aircrack-ng.org"
-license=('GPL2')
+url="https://www.${pkgname}.org"
+license=(
+  'GPL2'
+)
 depends=(
   'glibc'
   'gcc-libs'
@@ -41,7 +45,7 @@ depends=(
   'pcre'
   'libpcap'
   libpcap.so
-  'python'
+  "${_py}"
   'zlib'
   'libnl'
 )
@@ -54,22 +58,23 @@ depends=(
     'hwloc'
   )
 makedepends=(
-  'python-setuptools'
+  "${_py}-setuptools"
 )
 checkdepends=(
   'cmocka'
 )
 conflicts=(
-  'aircrack-ng-scripts')
+  "${pkgname}-scripts"
+)
 
 replaces=(
-  'aircrack-ng-scripts'
+  "${pkgname}-scripts"
 )
 provides=(
-  'aircrack-ng-scripts'
+  "${pkgname}-scripts"
 )
 source=(
-  https://download.aircrack-ng.org/$pkgname-$_pkgver.tar.gz
+  "https://download.${pkgname}.org/${pkgname}-${_pkgver}.tar.gz"
 )
 sha256sums=(
   '05a704e3c8f7792a17315080a21214a4448fd2452c1b0dd5226a3a55f90b58c3'
@@ -85,13 +90,35 @@ prepare() {
     -fiv
 }
 
+_get_usr() {
+  local \
+    _usr \
+    _bin
+  _bin="$( \
+    dirname \
+      "$( \
+        command \
+          -v \
+          "cc")")"
+  _usr="$( \
+    dirname \
+      "${_bin}")"
+  echo \
+    "$( \
+      realpath \
+        "${_usr}")"
+}
+
 build() {
   local \
-    _configure_opts=()
+    _configure_opts=() \
+    _usr
+  _usr="$( \
+    _get_usr)"
   _configure_opts=(
-    --prefix=/usr
-    --libexecdir=/usr/lib
-    --sbindir=/usr/bin
+    --prefix="${_usr}"
+    --libexecdir="${_usr}/lib"
+    --sbindir="${_usr}/bin"
     --with-ext-scripts
     --with-experimental
   )
@@ -118,7 +145,7 @@ package() {
   cd \
     "${pkgname}-${_pkgver}"
   make \
-    DESTDIR="$pkgdir" \
+    DESTDIR="${pkgdir}" \
     PREFIX='/usr' \
     install
 }
