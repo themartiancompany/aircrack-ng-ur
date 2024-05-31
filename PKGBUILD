@@ -148,6 +148,15 @@ package() {
     DESTDIR="${pkgdir}" \
     PREFIX='/usr' \
     install
+  if \
+    [[ "${_os}" == "Android" ]]; then
+    mv \
+      "${pkgdir}/data/data/com.termux/files/"* \
+      "${pkgdir}"
+    rm \
+      -r \
+      "${pkgdir}/data"
+  fi
 }
 
 # vim: ts=2 sw=2 et:
